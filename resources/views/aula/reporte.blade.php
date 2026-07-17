@@ -1,59 +1,41 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <title>Reporte Aula Virtual</title>
-    <style>
-        body { font-family: Arial, sans-serif; margin: 40px; background: #f4f4f4; }
-        h1, h2 { color: #333; }
-        table { width: 100%; border-collapse: collapse; background: #fff; margin-bottom: 30px; }
-        th, td { border: 1px solid #ddd; padding: 10px; text-align: left; }
-        th { background: #333; color: #fff; }
-        .resumen { background: #fff; padding: 20px; border-radius: 8px; margin-bottom: 20px; }
-        nav a { margin-right: 15px; }
-    </style>
-</head>
-<body>
-    <nav>
-        <a href="{{ route('entregas.filtro') }}">Filtro de Entregas</a>
-        <a href="{{ route('reporte') }}">Reporte</a>
-        <a href="{{ route('ranking') }}">Ranking</a>
-    </nav>
+@extends('layout.plantilla')
 
-    <h1>Reporte del Aula Virtual</h1>
+@section('title', 'Reporte Aula Virtual')
+@section('header', 'Reporte del Aula Virtual')
 
-    <div class="resumen">
-        <strong>% de entregas atrasadas:</strong> {{ $reporte['porcentaje_atrasadas'] }}%
+@section('content')
+    <div class="bg-white rounded-xl shadow p-6 mb-6 flex items-center justify-between">
+        <span class="text-gray-600 font-medium">Entregas atrasadas</span>
+        <span class="text-3xl font-bold text-red-600">{{ $reporte['porcentaje_atrasadas'] }}%</span>
     </div>
 
-    <h2>Promedio de notas por estudiante</h2>
-    <table>
-        <thead>
-            <tr><th>Estudiante</th><th>Promedio</th></tr>
-        </thead>
-        <tbody>
-            @foreach ($reporte['promedio_por_estudiante'] as $nombre => $promedio)
-                <tr>
-                    <td>{{ $nombre }}</td>
-                    <td>{{ $promedio }}</td>
-                </tr>
-            @endforeach
-        </tbody>
-    </table>
+    <div class="grid md:grid-cols-2 gap-6">
+        <div class="bg-white rounded-xl shadow overflow-hidden">
+            <h2 class="bg-gray-800 text-white px-4 py-3 font-semibold">Promedio por estudiante</h2>
+            <table class="w-full text-left">
+                <tbody class="divide-y divide-gray-100">
+                    @foreach ($reporte['promedio_por_estudiante'] as $nombre => $promedio)
+                        <tr class="hover:bg-gray-50">
+                            <td class="px-4 py-3">{{ $nombre }}</td>
+                            <td class="px-4 py-3 text-right font-semibold text-teal-700">{{ $promedio }}</td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
 
-    <h2>Promedio de notas por tarea</h2>
-    <table>
-        <thead>
-            <tr><th>Tarea</th><th>Promedio</th></tr>
-        </thead>
-        <tbody>
-            @foreach ($reporte['promedio_por_tarea'] as $titulo => $promedio)
-                <tr>
-                    <td>{{ $titulo }}</td>
-                    <td>{{ $promedio }}</td>
-                </tr>
-            @endforeach
-        </tbody>
-    </table>
-</body>
-</html>
+        <div class="bg-white rounded-xl shadow overflow-hidden">
+            <h2 class="bg-gray-800 text-white px-4 py-3 font-semibold">Promedio por tarea</h2>
+            <table class="w-full text-left">
+                <tbody class="divide-y divide-gray-100">
+                    @foreach ($reporte['promedio_por_tarea'] as $titulo => $promedio)
+                        <tr class="hover:bg-gray-50">
+                            <td class="px-4 py-3">{{ $titulo }}</td>
+                            <td class="px-4 py-3 text-right font-semibold text-teal-700">{{ $promedio }}</td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
+    </div>
+@endsection
